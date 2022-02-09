@@ -5,7 +5,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+// change this to <> before submitting
 #include "getopt.h"
+#include "board.h"
 
 static char USAGE_MESSAGE[] = "usage:\nbracetopia [-h] [-t N] [-c N] [-d dim] [-s %str] [-v %vac] [-e %end]";
 static char LINE_ONE[] = "Option      Default   Example   Description";
@@ -16,6 +18,13 @@ static char LINE_FIVE[] = "'-d dim'    15        -d 7      width and height dime
 static char LINE_SIX[] = "'-s %str'   50        -s 30     strength of preference.";
 static char LINE_SEVEN[] = "'-v %vac'   20        -v30      percent vacancies.";
 static char LINE_EIGHT[] = "'-e %endl'  60        -e75      percent Endline braces. Others want Newline.";
+
+void set_spaces_numbers(int dimension, int vacancy_percentage, int endline_percentage, int *end_num, int *new_num) {
+    int size = dimension * dimension;
+    int vac_num = (int)(size * ((double)vacancy_percentage / 100));
+    *end_num = (int)((size - vac_num) * ((double)endline_percentage / 100));
+    *new_num = (int)((size - vac_num) - *end_num);
+}
 
 int main(int argc, char *argv[]) {
     int delay = 900000;
@@ -32,7 +41,7 @@ int main(int argc, char *argv[]) {
         return(EXIT_FAILURE);
     }
 
-    while ((opt = getopt(argc, argv, "hd:")) != -1) {
+    while ((opt = getopt(argc, argv, "hd:v:s:e:c:t:")) != -1) {
         switch ( opt ) {
             case 'h':
                 printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", USAGE_MESSAGE, LINE_ONE, LINE_TWO, LINE_THREE, 
@@ -83,6 +92,7 @@ int main(int argc, char *argv[]) {
                 if ((int)strtol(optarg, NULL, 10) > 0) {
                     delay = (int)strtol(optarg, NULL, 10);
                 }
+                break;
             default:
                 // some unknown, possibly unacceptable option flag
                 fprintf(stderr, USAGE_MESSAGE);
@@ -90,7 +100,14 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    int newline_percentage = 100 - endline_percentage;
+    int endline_num;
+    int newline_num;
+
+    set_spaces_numbers(dimension, vacancy_percentage, endline_percentage, &endline_num, &newline_num);
+
+    printf("%d %d %d %d\n", endline_num, newline_num, dimension * dimension, delay);
+
+    char **board = create_board(dimension, endline_num, newline_num);
 
     return EXIT_SUCCESS;
 }
