@@ -5,11 +5,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+// #include <ncurses.h>
 // change this to <> before submitting
 #include "getopt.h"
 #include "board.h"
 
-static char USAGE_MESSAGE[] = "usage:\nbracetopia [-h] [-t N] [-c N] [-d dim] [-s %str] [-v %vac] [-e %end]";
+static const char USAGE_MESSAGE[] = "usage:\nbracetopia [-h] [-t N] [-c N] [-d dim] [-s %%str] [-v %%vac] [-e %%end]";
 static char LINE_ONE[] = "Option      Default   Example   Description";
 static char LINE_TWO[] = "'-h'        NA        -h        print this usage message.";
 static char LINE_THREE[] = "'-t N'      900000    -t 5000   microseconds cycle delay.";
@@ -26,22 +27,28 @@ void set_spaces_numbers(int dimension, int vacancy_percentage, int endline_perce
     *new_num = (int)((size - vac_num) - *end_num);
 }
 
-void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int happiness_strength) {
-    int cycle = 0;
-    int moves_this_cycle = 0;
-    
-    print_board(size, board);
+void output(int happiness_strength, int dimensions, int end_percent, int vacancy_percent, int cycle, int moves_this_cycle) {
     printf("cycle: %d\n", cycle);
     printf("moves this cycle: %d\n", moves_this_cycle);
+    printf("dim: %d, %%strength of preference:  %d%%, %%vacancy:  %d%%, %%end:  %d%%", dimensions, happiness_strength, vacancy_percent, end_percent);
+}
+
+void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int happiness_strength, int dimensions, int end_percent, int vacancy_percent) {
+    int cycle = 0;
+    int moves_this_cycle = 0;
+
+    output(happiness_strength, dimensions, end_percent, vacancy_percent, cycle, moves_this_cycle);
     cycle++;
 
     for (int i = 0; i < num_cycles; i++) {
         moves_this_cycle = update_board(size, board, happiness_strength);
-        print_board(size, board);
-        printf("cycle: %d\n", cycle);
-        printf("moves this cycle: %d\n", moves_this_cycle);
+        output(happiness_strength, dimensions, end_percent, vacancy_percent, cycle, moves_this_cycle);
         cycle++;
     }
+}
+
+void handle_infinite_cycle(int size, char board[][MAX_SIZE], int happiness_strength, int dimensions, int end_percent, int vacancy_percent, int delay) {
+    
 }
 
 int main(int argc, char *argv[]) {
@@ -129,7 +136,7 @@ int main(int argc, char *argv[]) {
     create_board(board, dimension, endline_num, newline_num);
 
     if (print_cycle_count > -1) {
-        handle_print_cycle(print_cycle_count, dimension, board, strength);
+        handle_print_cycle(print_cycle_count, dimension, board, strength, dimension, endline_percentage, vacancy_percentage);
     }
 
     return EXIT_SUCCESS;
