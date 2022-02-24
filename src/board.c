@@ -15,6 +15,18 @@
 #define END_LINE 'e'
 #define NEW_LINE 'n'
 
+/**
+ * @private Should only be called internally
+ * @brief Checks if a given coordinate is happy
+ * 
+ * @param happiness_strength The threshold that determines if a character is happy. An int 0-100
+ * @param x The x coordinate of the desired spot to check
+ * @param y The y coordinate of the desired spot to check
+ * @param size The actual size of the underlying board
+ * @param board The 2D character MAX_SIZE x MAX_SIZE board
+ * @return int Returns 1 if happy, 0 if not happy.
+ * #define TRUE and #define FALSE are used to represent these
+ */
 int is_happy(int strength, int x, int y, int size, char board[][MAX_SIZE]) {
     char type = board[x][y];
 
@@ -56,18 +68,7 @@ int is_happy(int strength, int x, int y, int size, char board[][MAX_SIZE]) {
     }
 }
 
-void clone_board(int size, char board[][MAX_SIZE], char clone[][MAX_SIZE]) {
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            clone[i][j] = board[i][j];
-        }
-    }
-}
-
 int update_board(int size, char board[][MAX_SIZE], int happiness_strength) {
-    // char clone[MAX_SIZE][MAX_SIZE];
-    // clone_board(size, board, clone);
-
     int vacant_positions[MAX_LINEAR_SIZE][2];
     int num_vacant_positions = 0;
 
@@ -118,17 +119,16 @@ void fill_board(int size, char board[][MAX_SIZE], int amount, char fill_char) {
     }
 }
 
-void create_board(char board[][MAX_SIZE], int dimension, int end_num, int new_num) {
-    // int size = dimension * dimension;
+void create_board(int size, char board[][MAX_SIZE], int end_num, int new_num) {
     // printf("%d\n", size);
-    for (int i = 0; i < dimension; i++) {
-        for (int j = 0; j < dimension; j++) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
             board[i][j] = VACANT;
         }
     }
 
-    fill_board(dimension, board, end_num, END_LINE);
-    fill_board(dimension, board, new_num, NEW_LINE);
+    fill_board(size, board, end_num, END_LINE);
+    fill_board(size, board, new_num, NEW_LINE);
 }
 
 void print_board(int size, char board[][MAX_SIZE]) {
