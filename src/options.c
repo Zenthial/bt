@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <getopt.h>
 
+#include "options.h"
+
 static const char USAGE_MESSAGE[] = "usage:\nbracetopia [-h] [-t N] [-c N] [-d dim] [-s %%str] [-v %%vac] [-e %%end]";
 static const char LINE_ONE[] = "Option      Default   Example   Description";
 static const char LINE_TWO[] = "'-h'        NA        -h        print this usage message.";

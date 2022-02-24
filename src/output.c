@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 #include "board.h"
+#include "output.h"
 
 #define _DEFAULT_SOURCE
 
@@ -18,6 +19,7 @@ void output_ncurses(int happiness_strength, int dimensions, int end_percent, int
     printw("cycle: %d\n", cycle);
     printw("moves this cycle: %d\n", moves_this_cycle);
     printw("dim: %d, %%strength of preference:  %d%%, %%vacancy:  %d%%, %%end:  %d%%\n", dimensions, happiness_strength, vacancy_percent, end_percent);
+    printw("Use Control-C to quit.\n");
 }
 
 void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int happiness_strength, int end_percent, int vacancy_percent) {

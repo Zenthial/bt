@@ -7,7 +7,7 @@
 #include <ncurses.h>
 
 #include "board.h"
-#include "output_cycles.h"
+#include "output.h"
 #include "options.h"
 
 /// based on the endline and vacancy percentages, combined with the dimension,
