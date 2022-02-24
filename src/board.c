@@ -5,8 +5,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
+#include <time.h>
 
 #include "board.h"
+
+#define _DEFAULT_SOURCE
 
 #define TRUE 1
 #define FALSE 0
@@ -106,10 +109,12 @@ int update_board(int size, char board[][MAX_SIZE], int happiness_strength) {
 }
 
 void fill_board(int size, char board[][MAX_SIZE], int amount, char fill_char) {
+    srandom(time(NULL));
+
     for (int i = 0; i < amount; i++) {
-        int row = rand();
+        int row = random();
         row %= size;
-        int col = rand();
+        int col = random();
         col %= size;
         if (board[row][col] == VACANT) {
             board[row][col] = fill_char;

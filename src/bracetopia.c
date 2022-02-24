@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     char board[MAX_SIZE][MAX_SIZE];
     create_board(dimension, board, endline_num, newline_num);
 
-    if (print_cycle_count > -1) {
+    if (print_cycle_count >= 0) {
         handle_print_cycle(print_cycle_count, dimension, board, 
             strength, endline_percentage, vacancy_percentage);
     } else {
