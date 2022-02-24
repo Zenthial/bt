@@ -10,6 +10,8 @@
 #include "output_cycles.h"
 #include "options.h"
 
+/// based on the endline and vacancy percentages, combined with the dimension,
+/// calculates the newline and endline numbers
 void get_spaces_numbers(int dimension, int vacancy_percentage, int endline_percentage, int *end_num, int *new_num) {
     int size = dimension * dimension;
     int vac_num = (int)(size * ((double)vacancy_percentage / 100));
@@ -17,6 +19,7 @@ void get_spaces_numbers(int dimension, int vacancy_percentage, int endline_perce
     *new_num = (int)((size - vac_num) - *end_num);
 }
 
+/// main entry point
 int main(int argc, char *argv[]) {
     int delay = 900000;
     int dimension = 15;
@@ -45,10 +48,9 @@ int main(int argc, char *argv[]) {
 
     if (print_cycle_count > -1) {
         handle_print_cycle(print_cycle_count, dimension, board, 
-            strength, dimension, endline_percentage, vacancy_percentage);
+            strength, endline_percentage, vacancy_percentage);
     } else {
-        handle_infinite_cycle(dimension, board, strength, 
-            dimension, endline_percentage, vacancy_percentage, delay);
+        handle_infinite_cycle(dimension, board, strength, endline_percentage, vacancy_percentage, delay);
     }
 
     return EXIT_SUCCESS;

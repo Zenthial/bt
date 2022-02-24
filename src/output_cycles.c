@@ -17,21 +17,21 @@ void output_ncurses(int happiness_strength, int dimensions, int end_percent, int
     printw("dim: %d, %%strength of preference:  %d%%, %%vacancy:  %d%%, %%end:  %d%%", dimensions, happiness_strength, vacancy_percent, end_percent);
 }
 
-void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int happiness_strength, int dimensions, int end_percent, int vacancy_percent) {
+void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int happiness_strength, int end_percent, int vacancy_percent) {
     int cycle = 0;
     int moves_this_cycle = 0;
 
-    output(happiness_strength, dimensions, end_percent, vacancy_percent, cycle, moves_this_cycle);
+    output(happiness_strength, size, end_percent, vacancy_percent, cycle, moves_this_cycle);
     cycle++;
 
     for (int i = 0; i < num_cycles; i++) {
         moves_this_cycle = update_board(size, board, happiness_strength);
-        output(happiness_strength, dimensions, end_percent, vacancy_percent, cycle, moves_this_cycle);
+        output(happiness_strength, size, end_percent, vacancy_percent, cycle, moves_this_cycle);
         cycle++;
     }
 }
 
-void handle_infinite_cycle(int size, char board[][MAX_SIZE], int happiness_strength, int dimensions, int end_percent, int vacancy_percent, int delay) {
+void handle_infinite_cycle(int size, char board[][MAX_SIZE], int happiness_strength, int end_percent, int vacancy_percent, int delay) {
     initscr();
 
     int cycle = 0;
@@ -41,7 +41,7 @@ void handle_infinite_cycle(int size, char board[][MAX_SIZE], int happiness_stren
 
         print_board_ncurses(size, board);
         move(size, 0);
-        output_ncurses(happiness_strength, dimensions, end_percent, vacancy_percent, cycle, moves_this_cycle);
+        output_ncurses(happiness_strength, size, end_percent, vacancy_percent, cycle, moves_this_cycle);
         refresh();
 
         moves_this_cycle = update_board(size, board, happiness_strength);
