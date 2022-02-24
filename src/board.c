@@ -113,12 +113,12 @@ void update_board(int size, char board[][MAX_SIZE], int happiness_strength, int 
 }
 
 void fill_board(int size, char board[][MAX_SIZE], int amount, char fill_char) {
-    srandom(time(NULL));
+    srand(time(NULL));
 
     for (int i = 0; i < amount; i++) {
-        int row = random();
+        int row = rand();
         row %= size;
-        int col = random();
+        int col = rand();
         col %= size;
         if (board[row][col] == VACANT) {
             board[row][col] = fill_char;
