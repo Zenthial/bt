@@ -16,6 +16,7 @@ static const char LINE_EIGHT[] = "'-e %endl'  60        -e75      percent Endlin
 
 int get_options(int argc, char *argv[], int *dimension, int *strength, int *vacancy_percentage, int *endline_percentage, int *print_cycle_count, int *delay) {
     int opt;
+    char *leftover = NULL;
 
     if (argc == 0) {
         fprintf(stderr, USAGE_MESSAGE);
@@ -28,50 +29,57 @@ int get_options(int argc, char *argv[], int *dimension, int *strength, int *vaca
                 printf("%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n", USAGE_MESSAGE, LINE_ONE, LINE_TWO, LINE_THREE, 
                     LINE_FOUR, LINE_FIVE, LINE_SIX, LINE_SEVEN, LINE_EIGHT
                 );
+                return -1;
                 break;
             case 'd': // handle dimension setting
-                *dimension = (int)strtol(optarg, NULL, 10);
-                if (*dimension < 5) { // min size is 5
-                    *dimension = 5;
-                } else if (*dimension > 39) { // max size is 39
-                    *dimension = 39;
+                *dimension = (int)strtol(optarg, &leftover, 10);
+                if (*dimension < 5 || *dimension > 39 || leftover != NULL) { // min size is 5
+                    fprintf(stderr, USAGE_MESSAGE);
+                    return (EXIT_FAILURE);
                 }
                 
                 break;
             case 's': // handle dimension setting
-                *strength = (int)strtol(optarg, NULL, 10);
-                if (*strength < 0) { // min size is 5
-                    *strength = 0;
-                } else if (*strength > 100) { // max size is 39
-                    *strength = 100;
+                *strength = (int)strtol(optarg, &leftover, 10);
+                if (*strength <= 0 || *strength > 100 || leftover != NULL) { // min size is 5
+                    fprintf(stderr, USAGE_MESSAGE);
+                    return (EXIT_FAILURE);
                 }
                 
                 break;
             case 'v': // handle dimension setting
-                *vacancy_percentage = (int)strtol(optarg, NULL, 10);
-                if (*vacancy_percentage < 0) { // min size is 5
-                    *vacancy_percentage = 0;
-                } else if (*vacancy_percentage > 100) { // max size is 39
-                    *vacancy_percentage = 100;
+                *vacancy_percentage = (int)strtol(optarg, &leftover, 10);
+                if (*vacancy_percentage <= 0 || *vacancy_percentage > 100 || leftover != NULL) { // min size is 5
+                    // some unknown, possibly unacceptable option flag
+                    fprintf(stderr, USAGE_MESSAGE);
+                    return (EXIT_FAILURE);
                 }
                 
                 break;
             case 'e': // handle dimension setting
-                *endline_percentage = (int)strtol(optarg, NULL, 10);
-                if (*endline_percentage < 0) { // min size is 5
-                    *endline_percentage = 0;
-                } else if (*endline_percentage > 100) { // max size is 39
-                    *endline_percentage = 100;
+                *endline_percentage = (int)strtol(optarg, &leftover, 10);
+                if (*endline_percentage <= 0 || *endline_percentage > 100 || leftover != NULL) { // min size is 5
+                    fprintf(stderr, USAGE_MESSAGE);
+                    return (EXIT_FAILURE);
                 }
 
                 break;
             case 'c': // handle dimension setting
-                *print_cycle_count = (int)strtol(optarg, NULL, 10);
+                *print_cycle_count = (int)strtol(optarg, &leftover, 10);
 
+                if (leftover != NULL) {
+                    fprintf(stderr, USAGE_MESSAGE);
+                    return (EXIT_FAILURE);
+                }
                 break;
             case 't':
-                if ((int)strtol(optarg, NULL, 10) > 0) {
-                    *delay = (int)strtol(optarg, NULL, 10);
+                if ((int)strtol(optarg, &leftover, 10) > 0) {
+                    *delay = (int)strtol(optarg, &leftover, 10);
+
+                    if (leftover != NULL) {
+                        fprintf(stderr, USAGE_MESSAGE);
+                        return (EXIT_FAILURE);
+                    }
                 }
                 break;
             default:

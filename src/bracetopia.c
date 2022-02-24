@@ -33,6 +33,8 @@ int main(int argc, char *argv[]) {
 
     if (ret_val == EXIT_FAILURE) {
         return EXIT_FAILURE;
+    } else if (ret_val == -1) {
+        return EXIT_SUCCESS;
     }
 
     int endline_num;
