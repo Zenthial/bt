@@ -6,6 +6,8 @@
 
 void print_board(int size, char board[][MAX_SIZE]);
 
+void print_board_ncurses(int size, char board[][MAX_SIZE]);
+
 int update_board(int size, char board[][MAX_SIZE], int happiness_strength);
 
 void create_board(char board[][MAX_SIZE], int dimension, int end_num, int new_num);

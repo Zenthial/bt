@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ncurses.h>
 
 #include "board.h"
 
@@ -136,5 +137,14 @@ void print_board(int size, char board[][MAX_SIZE]) {
             printf("%c", board[i][j]);
         }
         printf("\n");
+    }
+}
+
+void print_board_ncurses(int size, char board[][MAX_SIZE]) {
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            printw("%c", board[i][j]);
+        }
+        printw("\n");
     }
 }
