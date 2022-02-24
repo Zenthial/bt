@@ -34,6 +34,16 @@ void print_board_ncurses(int size, char board[][MAX_SIZE]);
 void update_board(int size, char board[][MAX_SIZE], int happiness_strength, int *moves_cycle, float *happiness_cycle);
 
 /**
+ * @brief Used in the 0th display of the board
+ * 
+ * @param size The actual size of the underlying board
+ * @param board The 2D character MAX_SIZE x MAX_SIZE board
+ * @param happiness_strength The threshold that determines if a character is happy. An int 0-100
+ * @return float Total happiness of the board
+ */
+float calculate_total_happiness(int size, char board[][MAX_SIZE], int happiness_strength);
+
+/**
  * @brief Create a board object
  * 
  * @param size The actual size of the underlying board to be filled

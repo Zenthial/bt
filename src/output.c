@@ -28,7 +28,7 @@ void output_ncurses(int happiness_strength, int dimensions, int end_percent, int
 void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int happiness_strength, int end_percent, int vacancy_percent) {
     int cycle = 0;
     int moves_this_cycle = 0;
-    float happiness_this_cycle = 0;
+    float happiness_this_cycle = calculate_total_happiness(size, board, happiness_strength);
 
     output(happiness_strength, size, board, end_percent, vacancy_percent, cycle, moves_this_cycle, happiness_this_cycle);
     cycle++;
@@ -45,7 +45,7 @@ void handle_infinite_cycle(int size, char board[][MAX_SIZE], int happiness_stren
 
     int cycle = 0;
     int moves_this_cycle = 0;
-    float happiness_this_cycle = 0;
+    float happiness_this_cycle = calculate_total_happiness(size, board, happiness_strength);
 
     while (1) {
         move(0, 0);
