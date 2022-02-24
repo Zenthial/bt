@@ -16,7 +16,7 @@ static const char LINE_EIGHT[] = "'-e %endl'  60        -e75      percent Endlin
 
 int get_options(int argc, char *argv[], int *dimension, int *strength, int *vacancy_percentage, int *endline_percentage, int *print_cycle_count, int *delay) {
     int opt;
-    char *leftover = NULL;
+    char *leftover;
 
     if (argc == 0) {
         fprintf(stderr, USAGE_MESSAGE);
@@ -33,7 +33,7 @@ int get_options(int argc, char *argv[], int *dimension, int *strength, int *vaca
                 break;
             case 'd': // handle dimension setting
                 *dimension = (int)strtol(optarg, &leftover, 10);
-                if (*dimension < 5 || *dimension > 39 || leftover != NULL) { // min size is 5
+                if (*dimension < 5 || *dimension > 39 || *leftover != '\0') { // min size is 5
                     fprintf(stderr, USAGE_MESSAGE);
                     return (EXIT_FAILURE);
                 }
@@ -41,7 +41,7 @@ int get_options(int argc, char *argv[], int *dimension, int *strength, int *vaca
                 break;
             case 's': // handle dimension setting
                 *strength = (int)strtol(optarg, &leftover, 10);
-                if (*strength <= 0 || *strength > 100 || leftover != NULL) { // min size is 5
+                if (*strength <= 0 || *strength > 100 || *leftover != '\0') { // min size is 5
                     fprintf(stderr, USAGE_MESSAGE);
                     return (EXIT_FAILURE);
                 }
@@ -49,7 +49,7 @@ int get_options(int argc, char *argv[], int *dimension, int *strength, int *vaca
                 break;
             case 'v': // handle dimension setting
                 *vacancy_percentage = (int)strtol(optarg, &leftover, 10);
-                if (*vacancy_percentage <= 0 || *vacancy_percentage > 100 || leftover != NULL) { // min size is 5
+                if (*vacancy_percentage <= 0 || *vacancy_percentage > 100 || *leftover != '\0') { // min size is 5
                     // some unknown, possibly unacceptable option flag
                     fprintf(stderr, USAGE_MESSAGE);
                     return (EXIT_FAILURE);
@@ -58,7 +58,7 @@ int get_options(int argc, char *argv[], int *dimension, int *strength, int *vaca
                 break;
             case 'e': // handle dimension setting
                 *endline_percentage = (int)strtol(optarg, &leftover, 10);
-                if (*endline_percentage <= 0 || *endline_percentage > 100 || leftover != NULL) { // min size is 5
+                if (*endline_percentage <= 0 || *endline_percentage > 100 || *leftover != '\0') { // min size is 5
                     fprintf(stderr, USAGE_MESSAGE);
                     return (EXIT_FAILURE);
                 }
@@ -67,7 +67,7 @@ int get_options(int argc, char *argv[], int *dimension, int *strength, int *vaca
             case 'c': // handle dimension setting
                 *print_cycle_count = (int)strtol(optarg, &leftover, 10);
 
-                if (leftover != NULL) {
+                if (*leftover != '\0') {
                     fprintf(stderr, USAGE_MESSAGE);
                     return (EXIT_FAILURE);
                 }
@@ -76,7 +76,7 @@ int get_options(int argc, char *argv[], int *dimension, int *strength, int *vaca
                 if ((int)strtol(optarg, &leftover, 10) > 0) {
                     *delay = (int)strtol(optarg, &leftover, 10);
 
-                    if (leftover != NULL) {
+                    if (*leftover != '\0') {
                         fprintf(stderr, USAGE_MESSAGE);
                         return (EXIT_FAILURE);
                     }

@@ -133,6 +133,47 @@ void update_board(int size, char board[][MAX_SIZE], int happiness_strength, int 
     *happiness_cycle = ((float)num_happy_coordinates) / ((float)(num_happy_coordinates + num_unhappy_coordinates));
 }
 
+void fill_board_fisher_yates(int size, char board[][MAX_SIZE], int end_num, int new_num) {
+    srand(41);
+
+    char one_d[MAX_LINEAR_SIZE];
+    int true_size = size * size;
+
+    int vac_num = (size * size) - (end_num + new_num);
+    int current_index = 0;
+
+    for (int i = current_index; i < end_num; i++) {
+        one_d[i] = END_LINE;
+    }
+
+    current_index = end_num;
+
+    for (int i = current_index; i < end_num + new_num; i++) {
+        one_d[i] = NEW_LINE;
+    }
+
+    current_index = end_num + new_num;
+
+    for (int i = current_index; i < end_num + new_num + vac_num; i++) {
+        one_d[i] = VACANT;
+    }
+
+    // do the actual shuffling
+    for (int i = 0; i < true_size - 1; i++) {
+        int j = rand() % true_size;
+        char curr_val = one_d[i];
+        one_d[i] = one_d[j];
+        one_d[j] = curr_val;
+    }
+
+    int k = 0;
+    for (int i = 0; i < size; i++) {
+        for (int j = 0; j < size; j++) {
+            board[i][j] = one_d[k++];
+        }
+    }
+}
+
 void fill_board(int size, char board[][MAX_SIZE], int amount, char fill_char) {
     srand(time(NULL));
 
@@ -151,14 +192,16 @@ void fill_board(int size, char board[][MAX_SIZE], int amount, char fill_char) {
 
 void create_board(int size, char board[][MAX_SIZE], int end_num, int new_num) {
     // printf("%d\n", size);
-    for (int i = 0; i < size; i++) {
-        for (int j = 0; j < size; j++) {
-            board[i][j] = VACANT;
-        }
-    }
+    // for (int i = 0; i < size; i++) {
+    //     for (int j = 0; j < size; j++) {
+    //         board[i][j] = VACANT;
+    //     }
+    // }
 
-    fill_board(size, board, end_num, END_LINE);
-    fill_board(size, board, new_num, NEW_LINE);
+    // fill_board(size, board, end_num, END_LINE);
+    // fill_board(size, board, new_num, NEW_LINE);
+
+    fill_board_fisher_yates(size, board, end_num, new_num);
 }
 
 void print_board(int size, char board[][MAX_SIZE]) {

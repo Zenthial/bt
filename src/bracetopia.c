@@ -28,12 +28,14 @@ int main(int argc, char *argv[]) {
     int endline_percentage = 60;
     int print_cycle_count = -1;
 
-    int ret_val = get_options(argc, argv, &dimension, &strength, &vacancy_percentage, 
-        &endline_percentage, &print_cycle_count, &delay);
+    int ret_val = get_options(argc, argv, &dimension, &strength, &vacancy_percentage,
+                              &endline_percentage, &print_cycle_count, &delay);
 
     if (ret_val == EXIT_FAILURE) {
         return EXIT_FAILURE;
-    } else if (ret_val == -1) {
+    }
+    else if (ret_val == -1)
+    {
         return EXIT_SUCCESS;
     }
 
