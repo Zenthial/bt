@@ -2,7 +2,7 @@
 /// bracetopia.c is the main entry point for the bracetopia project
 /// author: Tom Schollenberger
 ///
-
+#define _DEFAULT_SOURCE
 #include <stdlib.h>
 #include <ncurses.h>
 
