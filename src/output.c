@@ -1,3 +1,5 @@
+#define _DEFAULT_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
@@ -6,7 +8,6 @@
 #include "board.h"
 #include "output.h"
 
-#define _DEFAULT_SOURCE
 
 void output(int happiness_strength, int dimensions, char board[][MAX_SIZE], int end_percent, int vacancy_percent, int cycle, int moves_this_cycle, float happiness_this_cycle) {
     print_board(dimensions, board);

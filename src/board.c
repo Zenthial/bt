@@ -2,6 +2,8 @@
 /// handles all things related to the board state
 /// author: tom schollenberger
 
+#define _DEFAULT_SOURCE
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ncurses.h>
@@ -9,7 +11,6 @@
 
 #include "board.h"
 
-#define _DEFAULT_SOURCE
 
 #define TRUE 1
 #define FALSE 0
