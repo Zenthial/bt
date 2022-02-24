@@ -71,12 +71,13 @@ int is_happy(int strength, int x, int y, int size, char board[][MAX_SIZE]) {
     }
 }
 
-int update_board(int size, char board[][MAX_SIZE], int happiness_strength) {
+void update_board(int size, char board[][MAX_SIZE], int happiness_strength, int *moves_cycle, float *happiness_cycle) {
     int vacant_positions[MAX_LINEAR_SIZE][2];
     int num_vacant_positions = 0;
 
     int unhappy_coordinates[MAX_LINEAR_SIZE][2];
     int num_unhappy_coordinates = 0;
+    int num_happy_coordinates = 0;
 
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
@@ -93,6 +94,8 @@ int update_board(int size, char board[][MAX_SIZE], int happiness_strength) {
                     unhappy_coordinates[num_unhappy_coordinates][1] = j;
 
                     num_unhappy_coordinates++;
+                } else {
+                    num_happy_coordinates++;
                 }
             }
         }
@@ -105,7 +108,8 @@ int update_board(int size, char board[][MAX_SIZE], int happiness_strength) {
         board[unhappy_coordinates[i][0]][unhappy_coordinates[i][1]] = VACANT;
     }
 
-    return num_moves;
+    *moves_cycle = num_moves;
+    *happiness_cycle = ((float)num_happy_coordinates) / ((float)(num_happy_coordinates + num_vacant_positions));
 }
 
 void fill_board(int size, char board[][MAX_SIZE], int amount, char fill_char) {
