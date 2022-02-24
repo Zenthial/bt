@@ -26,13 +26,31 @@ void set_spaces_numbers(int dimension, int vacancy_percentage, int endline_perce
     *new_num = (int)((size - vac_num) - *end_num);
 }
 
+void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int happiness_strength) {
+    int cycle = 0;
+    int moves_this_cycle = 0;
+    
+    print_board(size, board);
+    printf("cycle: %d\n", cycle);
+    printf("moves this cycle: %d\n", moves_this_cycle);
+    cycle++;
+
+    for (int i = 0; i < num_cycles; i++) {
+        moves_this_cycle = update_board(size, board, happiness_strength);
+        print_board(size, board);
+        printf("cycle: %d\n", cycle);
+        printf("moves this cycle: %d\n", moves_this_cycle);
+        cycle++;
+    }
+}
+
 int main(int argc, char *argv[]) {
     int delay = 900000;
     int dimension = 15;
     int strength = 50;
     int vacancy_percentage = 20;
     int endline_percentage = 60;
-    int count_cycle = -1;
+    int print_cycle_count = -1;
 
     int opt;
 
@@ -55,7 +73,7 @@ int main(int argc, char *argv[]) {
                 } else if (dimension > 39) { // max size is 39
                     dimension = 39;
                 }
-                printf("%s == %d\n", "d", dimension);
+                
                 break;
             case 's': // handle dimension setting
                 strength = (int)strtol(optarg, NULL, 10);
@@ -64,7 +82,7 @@ int main(int argc, char *argv[]) {
                 } else if (strength > 100) { // max size is 39
                     strength = 100;
                 }
-                printf("%s == %d\n", "s", strength);
+                
                 break;
             case 'v': // handle dimension setting
                 vacancy_percentage = (int)strtol(optarg, NULL, 10);
@@ -73,7 +91,7 @@ int main(int argc, char *argv[]) {
                 } else if (vacancy_percentage > 100) { // max size is 39
                     vacancy_percentage = 100;
                 }
-                printf("%s == %d\n", "v", vacancy_percentage);
+                
                 break;
             case 'e': // handle dimension setting
                 endline_percentage = (int)strtol(optarg, NULL, 10);
@@ -82,11 +100,11 @@ int main(int argc, char *argv[]) {
                 } else if (endline_percentage > 100) { // max size is 39
                     endline_percentage = 100;
                 }
-                printf("%s == %d\n", "e", endline_percentage);
+
                 break;
             case 'c': // handle dimension setting
-                count_cycle = (int)strtol(optarg, NULL, 10);
-                printf("%s == %d\n", "c", count_cycle);
+                print_cycle_count = (int)strtol(optarg, NULL, 10);
+
                 break;
             case 't':
                 if ((int)strtol(optarg, NULL, 10) > 0) {
@@ -105,10 +123,14 @@ int main(int argc, char *argv[]) {
 
     set_spaces_numbers(dimension, vacancy_percentage, endline_percentage, &endline_num, &newline_num);
 
-    printf("%d %d %d %d\n", endline_num, newline_num, dimension * dimension, delay);
+    // printf("%d %d %d %d\n", endline_num, newline_num, dimension * dimension, delay);
 
     char board[MAX_SIZE][MAX_SIZE];
     create_board(board, dimension, endline_num, newline_num);
+
+    if (print_cycle_count > -1) {
+        handle_print_cycle(print_cycle_count, dimension, board, strength);
+    }
 
     return EXIT_SUCCESS;
 }
