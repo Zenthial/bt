@@ -11,7 +11,6 @@
 
 #include "board.h"
 
-
 #define TRUE 1
 #define FALSE 0
 #define NEIGHBORS 8
@@ -19,18 +18,7 @@
 #define END_LINE 'e'
 #define NEW_LINE 'n'
 
-/**
- * @private Should only be called internally
- * @brief Checks if a given coordinate is happy
- * 
- * @param happiness_strength The threshold that determines if a character is happy. An int 0-100
- * @param x The x coordinate of the desired spot to check
- * @param y The y coordinate of the desired spot to check
- * @param size The actual size of the underlying board
- * @param board The 2D character MAX_SIZE x MAX_SIZE board
- * @return int Returns 1 if happy, 0 if not happy.
- * #define TRUE and #define FALSE are used to represent these
- */
+/// determines if a given cell is happy
 int is_happy(int strength, int x, int y, int size, char board[][MAX_SIZE]) {
     char type = board[x][y];
 
@@ -72,6 +60,7 @@ int is_happy(int strength, int x, int y, int size, char board[][MAX_SIZE]) {
     }
 }
 
+/// only used for the initial state 0 cycle
 float calculate_total_happiness(int size, char board[][MAX_SIZE], int happiness_strength) {
     int num_happy = 0;
     int num_sad = 0;
@@ -92,6 +81,7 @@ float calculate_total_happiness(int size, char board[][MAX_SIZE], int happiness_
     return ((float)num_happy) / ((float)(num_happy + num_sad));
 }
 
+/// updates the board state with the given happiness strength. also sets the moves_cycle and happiness_cycle pointers
 void update_board(int size, char board[][MAX_SIZE], int happiness_strength, int *moves_cycle, float *happiness_cycle) {
     int vacant_positions[MAX_LINEAR_SIZE][2];
     int num_vacant_positions = 0;
@@ -133,7 +123,8 @@ void update_board(int size, char board[][MAX_SIZE], int happiness_strength, int 
     *happiness_cycle = ((float)num_happy_coordinates) / ((float)(num_happy_coordinates + num_unhappy_coordinates));
 }
 
-void fill_board_fisher_yates(int size, char board[][MAX_SIZE], int end_num, int new_num) {
+/// creates the board state by filling and randomizing the board
+void create_board(int size, char board[][MAX_SIZE], int end_num, int new_num) {
     srand(41);
 
     char one_d[MAX_LINEAR_SIZE];
@@ -174,36 +165,7 @@ void fill_board_fisher_yates(int size, char board[][MAX_SIZE], int end_num, int 
     }
 }
 
-void fill_board(int size, char board[][MAX_SIZE], int amount, char fill_char) {
-    srand(time(NULL));
-
-    for (int i = 0; i < amount; i++) {
-        int row = rand();
-        row %= size;
-        int col = rand();
-        col %= size;
-        if (board[row][col] == VACANT) {
-            board[row][col] = fill_char;
-        } else {
-            i--;
-        }
-    }
-}
-
-void create_board(int size, char board[][MAX_SIZE], int end_num, int new_num) {
-    // printf("%d\n", size);
-    // for (int i = 0; i < size; i++) {
-    //     for (int j = 0; j < size; j++) {
-    //         board[i][j] = VACANT;
-    //     }
-    // }
-
-    // fill_board(size, board, end_num, END_LINE);
-    // fill_board(size, board, new_num, NEW_LINE);
-
-    fill_board_fisher_yates(size, board, end_num, new_num);
-}
-
+/// prints the board using printf
 void print_board(int size, char board[][MAX_SIZE]) {
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {
@@ -213,6 +175,7 @@ void print_board(int size, char board[][MAX_SIZE]) {
     }
 }
 
+/// prints the board using print
 void print_board_ncurses(int size, char board[][MAX_SIZE]) {
     for (int i = 0; i < size; i++) {
         for (int j = 0; j < size; j++) {

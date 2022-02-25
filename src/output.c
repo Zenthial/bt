@@ -1,3 +1,9 @@
+/// output.c
+/// handles all things related to the different print cycles
+/// both infinite and standard print cycles are handled here
+/// methods are relatively similar, except for the difference between printf and printw
+/// author: tom schollenberger
+
 #define _DEFAULT_SOURCE
 
 #include <stdio.h>
@@ -8,7 +14,7 @@
 #include "board.h"
 #include "output.h"
 
-
+/// prints the output message for the standard print cycle
 void output(int happiness_strength, int dimensions, char board[][MAX_SIZE], int end_percent, int vacancy_percent, int cycle, int moves_this_cycle, float happiness_this_cycle) {
     print_board(dimensions, board);
     printf("cycle: %d\n", cycle);
@@ -17,6 +23,7 @@ void output(int happiness_strength, int dimensions, char board[][MAX_SIZE], int 
     printf("dim: %d, %%strength of preference:  %d%%, %%vacancy:  %d%%, %%end:  %d%%\n", dimensions, happiness_strength, vacancy_percent, end_percent);
 }
 
+/// prints the ouput message for the infinite print cycle
 void output_ncurses(int happiness_strength, int dimensions, int end_percent, int vacancy_percent, int cycle, int moves_this_cycle, float happiness_this_cycle) {
     printw("cycle: %d\n", cycle);
     printw("moves this cycle: %d\n", moves_this_cycle);
@@ -25,6 +32,7 @@ void output_ncurses(int happiness_strength, int dimensions, int end_percent, int
     printw("Use Control-C to quit.\n");
 }
 
+/// handles the finite print cycle, program will end after this runs
 void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int happiness_strength, int end_percent, int vacancy_percent) {
     int cycle = 0;
     int moves_this_cycle = 0;
@@ -40,6 +48,7 @@ void handle_print_cycle(int num_cycles, int size, char board[][MAX_SIZE], int ha
     }
 }
 
+/// handles the infinite print cycle, program can only be terminated with Control+C after this is called
 void handle_infinite_cycle(int size, char board[][MAX_SIZE], int happiness_strength, int end_percent, int vacancy_percent, int delay) {
     initscr();
 

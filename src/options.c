@@ -1,3 +1,7 @@
+/// options.c
+/// handles parsing the command line arguments
+/// author: tom schollenberger
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <getopt.h>
@@ -5,18 +9,18 @@
 
 #include "options.h"
 
+ static const char USAGE_MESSAGE[] = "usage:\nbracetopia [-h] [-t N] [-c N] [-d dim] [-s %str] [-v %vac] [-e %end]";
+ static const char LINE_ONE[] = "Option      Default   Example   Description";
+ static const char LINE_TWO[] = "'-h'        NA        -h        print this usage message.";
+ static const char LINE_THREE[] = "'-t N'      900000    -t 5000   microseconds cycle delay.";
+ static const char LINE_FOUR[] = "'-c N'      NA        -c4       count cycle maximum value.";
+ static const char LINE_FIVE[] = "'-d dim'    15        -d 7      width and height dimension.";
+ static const char LINE_SIX[] = "'-s %str'   50        -s 30     strength of preference.";
+ static const char LINE_SEVEN[] = "'-v %vac'   20        -v30      percent vacancies.";
+ static const char LINE_EIGHT[] = "'-e %endl'  60        -e75      percent Endline braces. Others want Newline.";
 
+/// parses the command line options, sets the respective pointers, throws usage errors
 int get_options(int argc, char *argv[], int *dimension, int *strength, int *vacancy_percentage, int *endline_percentage, int *print_cycle_count, int *delay) {
-    char USAGE_MESSAGE[] = "usage:\nbracetopia [-h] [-t N] [-c N] [-d dim] [-s %str] [-v %vac] [-e %end]";
-    char LINE_ONE[] = "Option      Default   Example   Description";
-    char LINE_TWO[] = "'-h'        NA        -h        print this usage message.";
-    char LINE_THREE[] = "'-t N'      900000    -t 5000   microseconds cycle delay.";
-    char LINE_FOUR[] = "'-c N'      NA        -c4       count cycle maximum value.";
-    char LINE_FIVE[] = "'-d dim'    15        -d 7      width and height dimension.";
-    char LINE_SIX[] = "'-s %str'   50        -s 30     strength of preference.";
-    char LINE_SEVEN[] = "'-v %vac'   20        -v30      percent vacancies.";
-    char LINE_EIGHT[] = "'-e %endl'  60        -e75      percent Endline braces. Others want Newline.";
-    
     int opt;
     char *leftover;
 

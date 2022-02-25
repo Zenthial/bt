@@ -54,7 +54,8 @@ I always seem to overthink how 2D matrix coordinates work, when I really should 
 What should the instructor do to improve this assignment?
 
 I would have appreciated a bit more explanation on the how the teams' happiness measure was calculated, as I'm not sure if I did it correctly.
-
+I would have also appreciated more specific options restrictions. 
+For instance, the fact that percentages can only be from 1-99 instead of 0-100 would have been good to write down on the actual project writeup
 
 What would you have liked to do in this assignment?
 
